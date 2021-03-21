@@ -60,7 +60,7 @@ Ball.prototype.checkCollision = function () {
   }
 };
 
-Ball.prototype.collisionTouch  = function() {
+Ball.prototype.collisionTouch = function() {
   for (var j = 0; j < balls.length; j++) {
     if (!(this === balls[j])) {
       var dx = this.x - balls[j].x;
@@ -104,7 +104,7 @@ setInterval(function () {
     balls[i].move();
     balls[i].checkCollision();  
     balls[i].collisionDetect(); 
-    //balls[i].collisionToom();
+    //balls[i].collisionTouch();
   }
   context.strokeRect(0, 0, width, height);
 }, 10);
