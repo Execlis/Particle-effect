@@ -5,7 +5,6 @@ let context = canvas.getContext("2d");
 
 // config
 let quantity = 100;
-let size = 3;
 let speed = 0.3;
 let widthLine = 100;
 let myX;
@@ -21,7 +20,7 @@ function Ball() {
   const color = ["red", "green", "fuchsia", "blue", "yellow", "purple", "Orange", "Aqua"];
   this.color = random(color);
   //this.color = 'rgb(' + Math.round(Math.random()*255) + ',' + Math.round(Math.random() * 255) + ',' + Math.round(Math.random()*255) +')';
-  this.size = size;
+  this.size = Math.floor(Math.random() * (5 - 2) + 2);
 }
 
 function random(arr) {
