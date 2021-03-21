@@ -104,7 +104,7 @@ setInterval(function () {
     balls[i].move();
     balls[i].checkCollision();  
     balls[i].collisionDetect(); 
-    balls[i].collisionToom();
+    //balls[i].collisionToom();
   }
   context.strokeRect(0, 0, width, height);
 }, 10);
