@@ -1,0 +1,12 @@
+* {
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background-color: rgb(37, 37, 37);
+}
+
+#canvas {
+  display: block;
+  margin: 0 auto;
+  background-color: black;
+}
