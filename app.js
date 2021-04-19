@@ -41,6 +41,7 @@ Ball.prototype.draw = function () {
   context.fillStyle = this.color;
   context.strokeStyle = this.color;
   context.lineWidth = 1.0;
+  context.globalAlpha = 1.0;
   circle(this.x, this.y, this.size, false); 
   
 };
@@ -61,11 +62,11 @@ Ball.prototype.checkCollision = function () {
 };
 
 Ball.prototype.collisionTouch = function() {
-  for (var j = 0; j < balls.length; j++) {
+  for (let j = 0; j < balls.length; j++) {
     if (!(this === balls[j])) {
-      var dx = this.x - balls[j].x;
-      var dy = this.y - balls[j].y;
-      var distance = Math.sqrt(dx * dx + dy * dy);
+      let dx = this.x - balls[j].x;
+      let dy = this.y - balls[j].y;
+      let distance = Math.sqrt(dx * dx + dy * dy);
 
       if (distance < this.size + balls[j].size) {
         balls[j].color = this.color = "lime";
@@ -75,14 +76,16 @@ Ball.prototype.collisionTouch = function() {
 }
 
 Ball.prototype.collisionDetect = function() {
-  for (var j = 0; j < balls.length; j++) {
+  for (let j = 0; j < balls.length; j++) {
     if (!(this === balls[j])) {
-      var dx = this.x - balls[j].x;
-      var dy = this.y - balls[j].y;
-      var distance = Math.sqrt(dx * dx + dy * dy);
-
+      let dx = this.x - balls[j].x;
+      let dy = this.y - balls[j].y;
+      let distance = Math.sqrt(dx * dx + dy * dy);
+      let lineDistance = 1 - (distance / 100);
+      //console.log(lineDistance);
       if (distance < widthLine) {
-        context.lineWidth = 0.3;
+        context.lineWidth = 0.9;
+        context.globalAlpha = lineDistance;
         context.beginPath();
         context.moveTo(this.x, this.y);
         context.lineTo(balls[j].x, balls[j].y);
