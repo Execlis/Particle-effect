@@ -1,16 +1,19 @@
 let canvas = document.getElementById("canvas");
-let width = canvas.scrollWidth;
-let height = canvas.scrollHeight;
+canvas.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+canvas.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+let width = canvas.width;
+let height = canvas.height;
 let context = canvas.getContext("2d");
+
 
 // config
 let quantity = 100;
-let speed = 0.3;
+let speed = 0.6;
 let widthLine = 100;
 let myX;
 let myY;
 let distanceBalls;
-
+let maxSize = 1;
 
 function Ball() {
   this.x = Math.floor(Math.random() * width);
@@ -20,7 +23,7 @@ function Ball() {
   const color = ["red", "green", "fuchsia", "blue", "yellow", "purple", "Orange", "Aqua"];
   this.color = random(color);
   //this.color = 'rgb(' + Math.round(Math.random()*255) + ',' + Math.round(Math.random() * 255) + ',' + Math.round(Math.random()*255) +')';
-  this.size = Math.floor(Math.random() * (5 - 2) + 2);
+  this.size = Math.floor(Math.random() * (6 - 3) + 3);
 }
 
 function random(arr) {
@@ -40,10 +43,9 @@ function circle(x, y, radius, fillCircle = false) {
 Ball.prototype.draw = function () {
   context.fillStyle = this.color;
   context.strokeStyle = this.color;
-  context.lineWidth = 1.0;
-  context.globalAlpha = 1.0;
-  circle(this.x, this.y, this.size, false); 
-  
+  context.lineWidth = 1.5;
+  context.globalAlpha = 0.8;
+  circle(this.x, this.y, this.size, true); 
 };
 
 Ball.prototype.move = function () {
@@ -61,36 +63,27 @@ Ball.prototype.checkCollision = function () {
   }
 };
 
+
 Ball.prototype.collisionTouch = function() {
   for (let j = 0; j < balls.length; j++) {
     if (!(this === balls[j])) {
       let dx = this.x - balls[j].x;
       let dy = this.y - balls[j].y;
       let distance = Math.sqrt(dx * dx + dy * dy);
-
-      if (distance < this.size + balls[j].size) {
-        balls[j].color = this.color = "lime";
-      }
-    }
-  }
-}
-
-Ball.prototype.collisionDetect = function() {
-  for (let j = 0; j < balls.length; j++) {
-    if (!(this === balls[j])) {
-      let dx = this.x - balls[j].x;
-      let dy = this.y - balls[j].y;
-      let distance = Math.sqrt(dx * dx + dy * dy);
-      let lineDistance = 1 - (distance / 100);
-      //console.log(lineDistance);
-      if (distance < widthLine) {
-        context.lineWidth = 0.9;
+      let lineDistance = 1 - ((100 / widthLine * distance) / 100);
+      if (distance <= widthLine) {
+        context.lineWidth = 1.0;
         context.globalAlpha = lineDistance;
         context.beginPath();
         context.moveTo(this.x, this.y);
         context.lineTo(balls[j].x, balls[j].y);
         context.stroke();
       }
+      // if (distance < this.size + balls[j].size) {
+      //   if (this.size > balls[j].size) {
+      //     balls[j].color = this.color
+      //   }
+      // }
     }
   }
 }
@@ -106,9 +99,7 @@ setInterval(function () {
     balls[i].draw();
     balls[i].move();
     balls[i].checkCollision();  
-    balls[i].collisionDetect(); 
-    //balls[i].collisionTouch();
+    balls[i].collisionTouch();
   }
-  context.strokeRect(0, 0, width, height);
 }, 10);
 
